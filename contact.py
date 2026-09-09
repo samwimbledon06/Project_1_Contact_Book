@@ -22,6 +22,14 @@ def add_contact(contacts):
             break # If the phone number is valid, the loop will break and the program will continue
         else: # If the phone number is not valid, the program will print an error message and the loop will continue
             print("Invalid phone number. Please try again.") # This will print an error message if the phone number is not valid
+# Step 2: check for duplicate phone number
+        # Checking for whether the phone number given is already in the contact book or not. If it is, then the program will print an error message and ask the user to enter a different phone number. If it is not, then the program will continue and create a new contact with the given information.
+    
+    if phone_number in contacts: # This checks if the phone number is already in the contact book
+        print("This phone number is already in the contact book. Please enter a different phone number.") # This will print an error message if the phone number is already in the contact book
+        return # This will return to the beginning of the program and ask the user to enter a different phone number
+    else:
+        pass
 
     while True: # This is a while loop that will keep running until the user enters a valid email address
         email = input("Enter email address: ") # This will prompt the user to enter an email address # I need to do a check on this before it is complete to have the "@" symbol submerged in the email address. If it is not, then the program will print an error message and ask the user to enter a different email address. If it is, then the program will continue and create a new contact with the given information.
@@ -42,17 +50,13 @@ def add_contact(contacts):
             print("Invalid country code. Please try again.") # This will print an error message if the country code is not cvalid and the loop will continue
 
 
-    # Step 2: check for duplicate phone number
-    # Checking for whether the phone number given is already in the contact book or not. If it is, then the program will print an error message and ask the user to enter a different phone number. If it is not, then the program will continue and create a new contact with the given information.
-
-    if phone_number in contacts: # This checks if the phone number is already in the contact book
-        print("This phone number is already in the contact book. Please enter a different phone number.") # This will print an error message if the phone number is already in the contact book
-        return # This will return to the beginning of the program and ask the user to enter a different phone number
-    else:
-        pass
-
     # Step 3: collect the remaining contact info
     first_name = input("Enter first name: ") # This will prompt the user to enter a first name
     last_name = input("Enter last name: ") # This will prompt the user to enter a last name
     city = input("Enter city: ") # This will prompt the user to enter a city
-    
+
+    user_contact = Contact(first_name, last_name, email, country_code, phone_number, city) # This will create a new contact with the given information
+    contacts[phone_number] = user_contact # This will add the new contact to the contact book with the phone number as the key and the contact object as the value
+
+for contact in contact.values(): # This will loop through all the contacts in the contact book and print them out
+    print(contact) # This will print out the contact information for each contact in the contact book
