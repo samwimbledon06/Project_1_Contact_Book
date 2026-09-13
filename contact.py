@@ -11,6 +11,8 @@ class Contact:
     def __str__(self): # This is a sepcial dunder method like __init__ that python understands and is used to help control the formatting of how objects are printed out when the print() function is called on them. This method is used to return a string representation of the object.
         return f"{self.first_name}, {self.last_name}, {self.email}, {self.country_code}, {self.phone_number}, {self.city}" # so this will print something like "John, Doe, john.doe@example.com, +1, 123-456-7890, New York"
 
+valid_field_names = ["first_name", "last_name", "email", "country_code", "phone_number", "city"] # This is a list of valid field names that can be updated in the contact book
+
 def add_contact(contacts):
 
     # Step 1: get and validate phone number
@@ -98,12 +100,25 @@ def update_contact(contacts): # This is a function that will update a contact in
         # Checking for whether the phone number given is already in the contact book or not. If it is, then the program will ask for the user to enter the field they want toi update and then ask for the new value of that field. If it is not, then the program will print an error message and ask the user to enter a different phone number.
         
     if phone_number in contacts: # This checks if the phone number is already in the contact book
-        valid_field_names = ["first_name", "last_name", "email", "country_code", "phone_number", "city"] # This is a list of valid field names that can be updated in the contact book
         while True: # This is a while loop that will keep running until the user enters a valid field name
             field_name = input("Enter the field name you would like to update: ") # This will prompt the user to enter the field name they would like to update
             if field_name.lower() == "cancel" or field_name.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not remove any contacts.
                 print("Updating contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
                 return # This will return to the main menu and not remove any contacts
+            if field_name.lower() == "phone_number": # This checks if the user is trying to update the phone number field. If they are, then the program will have to remove the current phone number given in the contact book dictionary. Ask the user for the new phone number and then add the new phone number to the contact book dictionary with the same contact object field values given
+                contact = contacts.pop(phone_number) # This will remove the contact object by finding the phone number in the contact book and deleting it from the dictionary
+                while True: # This is a while loop that will keep running until the user enters a valid phone number
+                    new_phone_number = input("Enter the new phone number: ") # This will prompt the user to enter a new phone number
+                    if new_phone_number.lower() == "cancel" or new_phone_number.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not remove any contacts.
+                        print("Updating the phone number of the contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
+                        return # This will return to the main menu and not remove any contacts
+                    if new_phone_number.isdigit() and len(new_phone_number) <= 15: # This checks if the phone number is valid by checking if it contains only digits and has 15 or fewer digits
+                        contact.phone_number = new_phone_number # This will update the phone number of the contact object to the new phone number given by the user
+                        contacts[new_phone_number] = contact # This will add the new phone number value to the contaxct book dictionary with the same contact object field values given
+                        print(f"Phone number updated to {new_phone_number}.") # This will print a message to the user that the phone number has been updated to the new phone number given
+                        return # This will return to the main menu and not remove any contacts
+                    else: # If the phone number is not valid, the program will print an error message and the loop will continue
+                        print("Invalid phone number. Please try again.") # This will print an error message if the phone number is not valid       
             if field_name.lower() in valid_field_names: # This checks if the field name is valid by checking if it is in the list of valid field names
                 new_value = input(f"Enter the new value for {field_name}: ") # This will prompt the user to enter the new value for the field name they would like to update
                 setattr(contacts[phone_number], field_name, new_value) # This will update the value of the field name in the contacts object that the user entered the phopne number for. The update value will be whatever the user inputted as the new value for that field name. The setattr() function is a built-in function in Python that allows you to set the value of an attribute of an object. The first argument is the object, the second argument is the name of the attribute, and the third argument is the new value for that attribute.
@@ -112,4 +127,21 @@ def update_contact(contacts): # This is a function that will update a contact in
     else: # If the phone number is not in the contact book, then the program will print an error message and ask the user to enter a different phone number.
         print("This phone number doesn't exist in the contact book. Please enter a different phone number") # This will print an error message if the phone number is not in the contact book
         return # This will return to the beginning of the program and ask the user to enter a different phone number
-        
+
+def filter_contacts(contacts): # This is a function that filters contacts by the value a user gives to them. The user will be prompted to enter a value and the program will filter the contacts by that value and print out the contacts that match that value.
+    filter_field_name = input("Enter the field name you would like to filter by: ") # This will prompt the user to enter the field name the user weould like to filter by 
+    filter_value = input("Enter the value you would like to filter by: ") # This will prompt the user to enter the value they would like to filter by
+    if filter_field_name.lower() == "cancel" or filter_field_name.lower() == "exit" or filter_value.lower() == "cancel" or filter_value.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not filter any contacts.
+        print("Filtering contacts operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
+        return # This will return to the main menu and not remove any contacts
+    elif filter_field_name.lower() not in valid_field_names: # This checks if the field name is valid by checking if it is in the list of valid field names
+        print("Invalid field name. Please try again.") # This will print an error message if the field name is not valid
+        return # This will return to the main menu and not filter any contacts
+    elif filter_field_name.lower() in valid_field_names: # If the field name is valid, the program will filter the contacts by the value the user entered and print out the contacts that match that value.
+        for contact in contacts.values(): # This will loop through all the contacts in the contact book and print them out
+            getattr(contact, filter_field_name) # This will get the value of the field name in the contacts object that the user entered the phone number for. The getattr() function is a built-in function in Python that allows you to get the value of an attribute of an object. The first argument is the object, and the second argument is the name of the attribute.
+            if getattr(contact, filter_field_name) == filter_value: # This checks if the value of the field name in the contacts object matches currently existing value the user entered. If it does, then the program will print out the contact of the object or objects containing the matching value.
+                print(contact) # This will print out the contact information for each contact in the contact book that matches the value the user entered
+            elif getattr(contact, filter_field_name) != filter_value: # This checks if the value of the field name in the contacts object does not match currently existing value the user entered. If it does not, then the program will print out an error message and ask the user to enter a different value.
+                print("No contacts found with that value. Please try again.") # This will print an error message if no contacts are found with the value the user entered
+                return # This will return to the main menu and not filter any contacts
