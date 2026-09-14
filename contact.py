@@ -138,10 +138,42 @@ def filter_contacts(contacts): # This is a function that filters contacts by the
         print("Invalid field name. Please try again.") # This will print an error message if the field name is not valid
         return # This will return to the main menu and not filter any contacts
     elif filter_field_name.lower() in valid_field_names: # If the field name is valid, the program will filter the contacts by the value the user entered and print out the contacts that match that value.
+        match_found = False # This is a boolean variable that will be used to check if a match is found or not. It is set to False by default and will be set to True if a match is found.
         for contact in contacts.values(): # This will loop through all the contacts in the contact book and print them out
-            getattr(contact, filter_field_name) # This will get the value of the field name in the contacts object that the user entered the phone number for. The getattr() function is a built-in function in Python that allows you to get the value of an attribute of an object. The first argument is the object, and the second argument is the name of the attribute.
             if getattr(contact, filter_field_name) == filter_value: # This checks if the value of the field name in the contacts object matches currently existing value the user entered. If it does, then the program will print out the contact of the object or objects containing the matching value.
                 print(contact) # This will print out the contact information for each contact in the contact book that matches the value the user entered
-            elif getattr(contact, filter_field_name) != filter_value: # This checks if the value of the field name in the contacts object does not match currently existing value the user entered. If it does not, then the program will print out an error message and ask the user to enter a different value.
-                print("No contacts found with that value. Please try again.") # This will print an error message if no contacts are found with the value the user entered
-                return # This will return to the main menu and not filter any contacts
+                match_found = True # This will set the match_found variable to True if a match is found
+        if match_found == False: # This checks if a match was found or not. If it was not, then the program will print out a message to the user that no matches were found.
+            print("No matches found.") # This will print out a message to the user that no matches were found
+
+def sort_contacts(contacts): # This is a function that sorts contacts by the value a user gives to them. The user will be prompted to enter a value and the program will sort the contacts by that value and print out the contacts in sorted order.
+    contact_list = list(contacts.values()) # This will create a list of all the contacts in the contact book
+    sort_field_name = input("Enter the field name you would like to sort by: ") # This will prompt the user to enter the field name the user would like to sort by
+    if sort_field_name.lower() == "cancel" or sort_field_name.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not sort any contacts.
+        print("Sorting contacts operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
+        return # This will return to the main menu and not sort any contacts
+    elif sort_field_name.lower() not in valid_field_names: # This checks if the field name is valid by checking if it is in the list of valid field names
+        print("Invalid field name. Please try again.") # This will print an error message if the field name is not valid
+        return # This will return to the main menu and not sort any contacts
+    elif sort_field_name.lower() in valid_field_names: # If the field name is valid, the program will sort the contacts by the value the user entered and print out the contacts in sorted order.
+        while True: # This is a while loop that will keep running until the user enters a valid option
+            reverse_order_answer = input(f"How would you like to sort your contacts by {sort_field_name}? /nA. A-Z /nB. Z-A") # This will prompt the user to enter how they would like to sort their contacts by the field name they entered. The user can enter A for ascending order or B for descending order. The program will then sort the contacts by the field name in the order the user entered and print out the contacts in sorted order.
+            if reverse_order_answer.lower() == "cancel" or reverse_order_answer.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not sort any contacts.
+                print("Sorting contacts operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
+                return # This will return to the main menu and not sort any contacts
+            elif reverse_order_answer.lower() == "a" or reverse_order_answer.lower() == "a. a-z" or reverse_order_answer.lower() == "a. a to z" or reverse_order_answer.lower() == "a-z" or reverse_order_answer.lower() == "a to z" or reverse_order_answer.lower() == "acending" or reverse_order_answer.lower() == "ascending order": # This checks if the user wants to sort the contacts in ascending order. If they do, then the program will sort the contacts by the field name in ascending order and print out the contacts in sorted order.
+                reverse_order = False # This will set the reverse_order variable to False if the user wants to sort the contacts in ascending order    
+                contact_list = sorted(contact_list, key = lambda contact: getattr(contact, sort_field_name), reverse=reverse_order) # This will sort the list of contacts by the value of the field name in the contacts object that the user entered. The lambda function is used to create an anonymous function that takes a contact object as an argument and returns the value of the field name in that contact object.
+                break # This will break the loop and the program will continue
+            elif reverse_order_answer.lower() == "b" or reverse_order_answer.lower() == "b. z-a" or reverse_order_answer.lower() == "b. z to a" or reverse_order_answer.lower() == "z-a" or reverse_order_answer.lower() == "z to a" or reverse_order_answer.lower() == "descending" or reverse_order_answer.lower() == "descendng order": # This checks if the user wants to sort the contacts in descending order. If they do, then the program will sort the contacts by the field name in descending order and print out the contacts in sorted order.
+                reverse_order = True # This will set the reverse_order variable to True if the user wants to sort the contacts in descending order
+                contact_list = sorted(contact_list, key = lambda contact: getattr(contact, sort_field_name), reverse=reverse_order) # This will sort the list of contacts by the value of the field name in the contacts object that the user entered. The lambda function is used to create an anonymous function that takes a contact object as an argument and returns the value of the field name in that contact object.
+                break # This will break the loop and the program will continue
+            else: # If the user enters an invalid option, the program will print an error message and return to the main menu.
+                print("Invalid option. Please try again.") # This will print an error message if the user enters an invalid option
+        for contact in contact_list: # This will loop through all the contacts in the sorted list and print them out
+            print(contact) # This will print out the contact information for each contact in the sorted list
+
+    
+        
+            
