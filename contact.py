@@ -22,23 +22,16 @@ valid_field_names = {
                         } # This is a list of valid field names that can be updated in the contact book
 
 def add_contact(contacts):
-
     # Step 1: get and validate phone number
-# Adding a program that checks whether the phone number is valid or not. A valid phone number is one that has digits only and has 15 or fewer digits 
+    # Adding a program that checks whether the phone number is valid or not. A valid phone number is one that has digits only and has 15 or fewer digits 
+    phone_number  = get_valid_phone_number()
+    if phone_number is None:
+        print("Adding contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu")
+        return  # This will return to the main menu and not add any contacts
+    # Step 2: check for duplicate phone number
+    # Checking for whether the phone number given is already in the contact book or not. If it is, then the program will print an error message and ask the user to enter a different phone number. If it is not, then the program will continue and create a new contact with the given information.
 
-    while True: # This is a while loop that will keep running until the user enters a valid phone number
-        phone_number = input("Enter a phone number: ") # This will prompt the user to enter a phone number
-        if phone_number.lower() == "cancel" or phone_number.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not remove any contacts.
-            print("Adding contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
-            return # This will return to the main menu and not remove any contacts
-        if phone_number.isdigit() and len(phone_number) <= 15: # This checks if the phone number is valid by checking if it contains only digits and has 15 or fewer digits
-            break # If the phone number is valid, the loop will break and the program will continue
-        else: # If the phone number is not valid, the program will print an error message and the loop will continue
-            print("Invalid phone number. Please try again.") # This will print an error message if the phone number is not valid
-# Step 2: check for duplicate phone number
-        # Checking for whether the phone number given is already in the contact book or not. If it is, then the program will print an error message and ask the user to enter a different phone number. If it is not, then the program will continue and create a new contact with the given information.
-    
-    if phone_number in contacts: # This checks if the phone number is already in the contact book
+    elif phone_number in contacts: # This checks if the phone number is already in the contact book
         print("This phone number is already in the contact book. Please enter a different phone number.") # This will print an error message if the phone number is already in the contact book
         return # This will return to the beginning of the program and ask the user to enter a different phone number
     else:
@@ -77,16 +70,10 @@ def display_contacts(contacts): # This is a function that will display all the c
 
 
 def remove_contact(contacts): # This is a function that will remove a contact from the contact book
-    while True: # This is a while loop that will keep running until the user enters a valid phone number
-        phone_number = input("Enter the phone number of the contact you want to remove: ") # This will prompt the user to enter the phone number of the contact they want to remove
-        if phone_number.lower() == "cancel" or phone_number.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not remove any contacts.
-            print("Removing contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
-            return # This will return to the main menu and not remove any contacts
-        if phone_number.isdigit() and len(phone_number) <= 15: # This checks if the phone number is valid by checking if it contains only digits and has 15 or fewer digits
-            break # If the phone number is valid, the loop will break and the program will continue
-        else: # If the phone number is not valid, the program will print an error message and the loop will continue
-            print("Invalid phone number. Please try again.") # This will print an error message if the phone number is not valid
-    
+    phone_number = get_valid_phone_number() #Assigning the rturn value of the function called get_valid_phone_number(). This function validates that the phoine number the user inputs(loops over until a user gives a phone number input) only contains digits and less than 15 digits or return sNone if the user inputs "exit" or "cancel" for the fucntion so that the outer function remove_contacts tops aswell
+    if phone_number is None:
+        print("Removing contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
+        return  # This will return to the main menu and not remove any contacts
     if phone_number in contacts: # This checks if the phone number is already in the contact book
         removed_contact = contacts.pop(phone_number) # This will remove the contact object by finding the phone number in the contact book and deleting it from the dictionary
         print(f"Contact removed: {removed_contact.first_name} {removed_contact.last_name}") # This will print the first name and last name of the contact removed and show the user
@@ -95,15 +82,10 @@ def remove_contact(contacts): # This is a function that will remove a contact fr
 
 
 def update_contact(contacts): # This is a function that will update a contact in the contact book
-    while True: # This is a while loop that will keep running until the user enters a valid phone number
-        phone_number = input("Enter a phone number: ") # This will prompt the user to enter a phone number
-        if phone_number.lower() == "cancel" or phone_number.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not remove any contacts.
-            print("Adding contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
-            return # This will return to the main menu and not remove any contacts
-        if phone_number.isdigit() and len(phone_number) <= 15: # This checks if the phone number is valid by checking if it contains only digits and has 15 or fewer digits
-                break # If the phone number is valid, the loop will break and the program will continue
-        else: # If the phone number is not valid, the program will print an error message and the loop will continue
-                print("Invalid phone number. Please try again.") # This will print an error message if the phone number is not valid
+    phone_number = get_valid_phone_number() #Assigning the rturn value of the function called get_valid_phone_number(). This function validates that the phoine number the user inputs(loops over until a user gives a phone number input) only contains digits and less than 15 digits or return sNone if the user inputs "exit" or "cancel" for the fucntion so that the outer function remove_contacts tops aswell
+    if phone_number is None: # If the get_valid_phone_number() function returns None because the user inputed exit or cancel for phone number to cnacel the operation
+        print("Updating contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
+        return  # This will return to the main menu and not update any contacts
         # Step 2: check if phone number already exists in contacts
         # Checking for whether the phone number given is already in the contact book or not. If it is, then the program will ask for the user to enter the field they want toi update and then ask for the new value of that field. If it is not, then the program will print an error message and ask the user to enter a different phone number.
         
@@ -117,18 +99,17 @@ def update_contact(contacts): # This is a function that will update a contact in
                 real_field_name = valid_field_names[field_name.lower()] # look up the real attribute name
                 if real_field_name == "phone_number": # branch based on the REAL name, not the raw input
                     contact = contacts.pop(phone_number) # This will remove the contact object by finding the phone number in the contact book and deleting it from the dictionary
-                    while True: # This is a while loop that will keep running until the user enters a valid phone number
-                        new_phone_number = input("Enter the new phone number: ") # This will prompt the user to enter a new phone number
-                        if new_phone_number.lower() == "cancel" or new_phone_number.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not remove any contacts.
-                            print("Updating the phone number of the contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
-                            return # This will return to the main menu and not remove any contacts
-                        if new_phone_number.isdigit() and len(new_phone_number) <= 15: # This checks if the phone number is valid by checking if it contains only digits and has 15 or fewer digits
-                            contact.phone_number = new_phone_number # This will update the phone number of the contact object to the new phone number given by the user
-                            contacts[new_phone_number] = contact # This will add the new phone number value to the contaxct book dictionary with the same contact object field values given
-                            print(f"Phone number updated to {new_phone_number}.") # This will print a message to the user that the phone number has been updated to the new phone number given
-                            return # This will return to the main menu and not remove any contacts
-                        else: # If the phone number is not valid, the program will print an error message and the loop will continue
-                            print("Invalid phone number. Please try again.") # This will print an error message if the phone number is not valid       
+                    new_phone_number = get_valid_phone_number() # This will validate the new phone number the user gives, looping until it is valid digits and 15 or fewer characters, or returning None if the user cancels or exits
+
+                    if new_phone_number is None: # If the user cancelled or exited while entering the new phone number
+                       print("Updating the phone number of the contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
+                       contacts[phone_number] = contact # This restores the contact object back into the dictionary under its original phone number key, since it was popped out earlier and would otherwise be lost if the operation is cancelled here
+                       return # This will return to the main menu and not update the contact
+                    else: # If a valid new phone number was given
+                        contact.phone_number = new_phone_number # This will update the phone number attribute of the contact object to the new phone number given by the user
+                        contacts[new_phone_number] = contact # This will add the contact back into the dictionary under the new phone number as the key
+                        print(f"Phone number updated to {new_phone_number}.") # This will print a message to the user that the phone number has been updated to the new phone number given
+                        return # This will return to the main menu after successfully updating the phone number
                 else: # This checks if the field name is any other valid non phone number field 
                     new_value = input(f"Enter the new value for {field_name}: ") # This will prompt the user to enter the new value for the field name they would like to update
                     setattr(contacts[phone_number], real_field_name, new_value) # This will update the value of the field name in the contacts object that the user entered the phopne number for. The update value will be whatever the user inputted as the new value for that field name. The setattr() function is a built-in function in Python that allows you to set the value of an attribute of an object. The first argument is the object, the second argument is the name of the attribute, and the third argument is the new value for that attribute.
@@ -167,18 +148,19 @@ def sort_contacts(contacts): # This is a function that sorts contacts by the val
         print("Invalid field name. Please try again.") # This will print an error message if the field name is not valid
         return # This will return to the main menu and not sort any contacts
     elif sort_field_name.lower() in valid_field_names: # If the field name is valid, the program will sort the contacts by the value the user entered and print out the contacts in sorted order.
+        real_field_name = valid_field_names[sort_field_name.lower()]
         while True: # This is a while loop that will keep running until the user enters a valid option
-            reverse_order_answer = input(f"How would you like to sort your contacts by {sort_field_name}? /nA. A-Z /nB. Z-A") # This will prompt the user to enter how they would like to sort their contacts by the field name they entered. The user can enter A for ascending order or B for descending order. The program will then sort the contacts by the field name in the order the user entered and print out the contacts in sorted order.
+            reverse_order_answer = input(f"How would you like to sort your contacts by {real_field_name}? /nA. A-Z /nB. Z-A") # This will prompt the user to enter how they would like to sort their contacts by the field name they entered. The user can enter A for ascending order or B for descending order. The program will then sort the contacts by the field name in the order the user entered and print out the contacts in sorted order.
             if reverse_order_answer.lower() == "cancel" or reverse_order_answer.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not sort any contacts.
                 print("Sorting contacts operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
                 return # This will return to the main menu and not sort any contacts
             elif reverse_order_answer.lower() == "a" or reverse_order_answer.lower() == "a. a-z" or reverse_order_answer.lower() == "a. a to z" or reverse_order_answer.lower() == "a-z" or reverse_order_answer.lower() == "a to z" or reverse_order_answer.lower() == "acending" or reverse_order_answer.lower() == "ascending order": # This checks if the user wants to sort the contacts in ascending order. If they do, then the program will sort the contacts by the field name in ascending order and print out the contacts in sorted order.
                 reverse_order = False # This will set the reverse_order variable to False if the user wants to sort the contacts in ascending order    
-                contact_list = sorted(contact_list, key = lambda contact: getattr(contact, sort_field_name), reverse=reverse_order) # This will sort the list of contacts by the value of the field name in the contacts object that the user entered. The lambda function is used to create an anonymous function that takes a contact object as an argument and returns the value of the field name in that contact object.
+                contact_list = sorted(contact_list, key = lambda contact: getattr(contact, real_field_name), reverse=reverse_order) # This will sort the list of contacts by the value of the field name in the contacts object that the user entered. The lambda function is used to create an anonymous function that takes a contact object as an argument and returns the value of the field name in that contact object.
                 break # This will break the loop and the program will continue
             elif reverse_order_answer.lower() == "b" or reverse_order_answer.lower() == "b. z-a" or reverse_order_answer.lower() == "b. z to a" or reverse_order_answer.lower() == "z-a" or reverse_order_answer.lower() == "z to a" or reverse_order_answer.lower() == "descending" or reverse_order_answer.lower() == "descendng order": # This checks if the user wants to sort the contacts in descending order. If they do, then the program will sort the contacts by the field name in descending order and print out the contacts in sorted order.
                 reverse_order = True # This will set the reverse_order variable to True if the user wants to sort the contacts in descending order
-                contact_list = sorted(contact_list, key = lambda contact: getattr(contact, sort_field_name), reverse=reverse_order) # This will sort the list of contacts by the value of the field name in the contacts object that the user entered. The lambda function is used to create an anonymous function that takes a contact object as an argument and returns the value of the field name in that contact object.
+                contact_list = sorted(contact_list, key = lambda contact: getattr(contact, real_field_name), reverse=reverse_order) # This will sort the list of contacts by the value of the field name in the contacts object that the user entered. The lambda function is used to create an anonymous function that takes a contact object as an argument and returns the value of the field name in that contact object.
                 break # This will break the loop and the program will continue
             else: # If the user enters an invalid option, the program will print an error message and return to the main menu.
                 print("Invalid option. Please try again.") # This will print an error message if the user enters an invalid option
@@ -261,3 +243,13 @@ while True: # This is a while loop that will keep running until the user enters 
     else:
         print("Please enter a valid command.")
 
+def get_valid_phone_number(): # This is a function that will validate a users input for phone number and check it is less than 15 digits longs and contains only digits. If it does then the function will return the valid phone number. If it doesnt then the user will prompted to enter a valid phone number again. if the user inouts exit or cancel then the function will return None and None will be passed into the respective wider fucntion which will stop that wider function from continuing
+    while True: # This will loop the code below until a valid phone number is given or the user inputs exit or cancel
+        phone_number = input("Enter a phone number: ") # This will prompt the user to enter a phone number
+        if phone_number.lower() == "cancel" or phone_number.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not remove any contacts.
+            print("Adding contact operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
+            return None # This will pass None to the fucntion and this will be the input into the wider functiuon to which this function is nested in which will stop all code continuing in the wider function
+        if phone_number.isdigit() and len(phone_number) <= 15: # This checks if the phone number is valid by checking if it contains only digits and has 15 or fewer digits
+            return phone_number
+        else: # If the phone number is not valid, the program will print an error message and the loop will continue
+            print("Invalid phone number. Please try again.") # This will print an error message if the phone number is not valid and the while True loop runs again
