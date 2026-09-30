@@ -171,7 +171,7 @@ def sort_contacts(contacts): # This is a function that sorts contacts by the val
         return # This will return to the main menu and not sort any contacts
     else: # If the field name is valid, the program will sort the contacts by the value the user entered and print out the contacts in sorted order.
         while True: # This is a while loop that will keep running until the user enters a valid option
-            reverse_order_answer = input(f"How would you like to sort your contacts by {real_sort_field_name}? nA. A-Z \nB. Z-A") # This will prompt the user to enter how they would like to sort their contacts by the field name they entered. The user can enter A for ascending order or B for descending order. The program will then sort the contacts by the field name in the order the user entered and print out the contacts in sorted order.
+            reverse_order_answer = input(f"How would you like to sort your contacts by {real_sort_field_name}? \nA. A-Z \nB. Z-A") # This will prompt the user to enter how they would like to sort their contacts by the field name they entered. The user can enter A for ascending order or B for descending order. The program will then sort the contacts by the field name in the order the user entered and print out the contacts in sorted order.
             if reverse_order_answer.lower() == "cancel" or reverse_order_answer.lower() == "exit": # This checks if the user wants to cancel or exit the program. If they do, then the program will return to the main menu and not sort any contacts.
                 print("Sorting contacts operation cancelled. Returning to main menu.") # This will print a message to the user that the operation has been cancelled and they are being returned to the main menu
                 return # This will return to the main menu and not sort any contacts
@@ -254,13 +254,15 @@ commands = {
     
 contacts = {} # This is the dictionary that acts as a contact book and stores all the contact objects as values to their corresponding phone number as a key. The dictionary will be added to once someone decideds to add a contact. THis dictionary is the data source that is effeected by all the functions e.g. add, display, remove, update, fiulter, sort contact
 
-while True: # This is a while loop that will keep running until the user enters "exit" or "quit"
-    user_input = input("Enter a command (or 'exit' to quit): ") # This will prompt the user to enter a command or exit/quit the program
-    if user_input.lower() == "exit" or user_input.lower() == "quit": # This checks if the user wants to exit or quit the program. If they do, then the program will break the loop and exit the program.
-        print("Exiting the program. Goodbye!") # This will print a message to the user that the program is exiting and they are being returned to the main menu
-        break # This will break the loop and exit the program
-    elif user_input.lower() in commands.keys(): # This checks whether the user has entered a valid command from any of the commands listed as key values in the commands dictionary
-        commands[user_input.lower()](contacts)
-    else:
-        print("Please enter a valid command.")
+if __name__ == "__main__": # The code inside this if block only runs when you execute contact.py directly (e.g. python contact.py). If another file imports from contact.py instead, this block is skipped entirely, so only the classes, functions, and other top-level code outside this block become available to that importing file
+
+    while True: # This is a while loop that will keep running until the user enters "exit" or "quit"
+        user_input = input("Enter a command (or 'exit' to quit): ") # This will prompt the user to enter a command or exit quit the program
+        if user_input.lower() == "exit" or user_input.lower() == "quit": # This checks if the user wants to exit or quit the program. If they do, then the program will break the loop and exit the program.
+            print("Exiting the program. Goodbye!") # This will print a message to the user that the program is exiting and they are being returned to the main menu
+            break # This will break the loop and exit the program
+        elif user_input.lower() in commands.keys(): # This checks whether the user has entered a valid command from any of the commands listed as key values in the commands dictionary
+            commands[user_input.lower()](contacts)
+        else:
+            print("Please enter a valid command.")
 
