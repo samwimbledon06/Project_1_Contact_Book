@@ -41,6 +41,10 @@ def get_real_field_name(field_name): # This function will validate whether a use
     else: # this means the user had inputted an invalid field name list that is not found in valid_field_name list
         return None # Pass back into the function None to represent that no user inputted valid field name was found
 
+def is_cancel(user_input): # This function checks whether a given piece of user input means the user wants to cancel or exit the current operation
+    if user_input.lower() == "exit" or user_input.lower() == "cancel": # Checks if the input matches "exit" or "cancel", regardless of capitalisation
+        return True # Returns True if the user wants to cancel/exit
+    return False # Returns False if the input is anything else
     
 def add_contact(contacts):
     # Step 1: get and validate phone number
@@ -59,28 +63,44 @@ def add_contact(contacts):
         pass
 
     while True: # This is a while loop that will keep running until the user enters a valid email address
-        email = input("Enter email address: ") # This will prompt the user to enter an email address # I need to do a check on this before it is complete to have the "@" symbol submerged in the email address. If it is not, then the program will print an error message and ask the user to enter a different email address. If it is, then the program will continue and create a new contact with the given information.
+        email = input("Enter email address: ") # This will prompt the user to enter an email address
+        if is_cancel(email): # Checks if the user wants to cancel or exit the program
+            print("Adding contact operation cancelled.") # This will print a message to the user that the operation has been cancelled
+            return # Stops the function from continuing
         if email.count("@") == 1 and email[0] != "@" and email[-1] != "@": # This checks if the email address is valid by checking if it contains exactly one "@" symbol and that the first and last characters are not "@" symbols
             break # If the email address is valid, the loop will break and the program will continue
-        else: # if  the email address is not valid, the program will print an error message and the loop will continue
+        else: # if the email address is not valid, the program will print an error message and the loop will continue
             print("Invalid email address. Please try again.") # This will print an error message if the email address is not valid
 
     while True:
         country_code = input("Enter country code: ") # This will prompt the user to enter a country code
-
+        if is_cancel(country_code): # Checks if the user wants to cancel or exit the program
+            print("Adding contact operation cancelled.") # This will print a message to the user that the operation has been cancelled
+            return # Stops the function from continuing
         if len(country_code) > 0 and country_code[0] == "+": # This checks whether there is more than one character and if the first character of the country code is a "+" symbol or not. If it is, then the program will continue and create a new contact with the given information. If it is not, then the program will print an error message and ask the user to enter a different country code.
             country_code = country_code.strip("+") # This will remove the "+" symbol from the country code if it is present
 
         if country_code.isdigit(): # This checks whether the country code is made of just numbers or not. If it is, then the program will continue and create a new contact with the given information. If it is not, then the program will print an error message and ask the user to enter a different country code.
             break # If the country code is valid, the loop will break and the program will continue
         else: # if the country code is not valid, the program will print an error message and loop will continue
-            print("Invalid country code. Please try again.") # This will print an error message if the country code is not cvalid and the loop will continue
+            print("Invalid country code. Please try again.") # This will print an error message if the country code is not valid and the loop will continue
 
 
     # Step 3: collect the remaining contact info
     first_name = input("Enter first name: ") # This will prompt the user to enter a first name
+    if is_cancel(first_name): # Checks if the user wants to cancel or exit the program
+        print("Adding contact operation cancelled.") # This will print a message to the user that the operation has been cancelled
+        return # Stops the function from continuing
+    
     last_name = input("Enter last name: ") # This will prompt the user to enter a last name
+    if is_cancel(last_name): # Checks if the user wants to cancel or exit the program
+        print("Adding contact operation cancelled.") # This will print a message to the user that the operation has been cancelled
+        return # Stops the function from continuing
+    
     city = input("Enter city: ") # This will prompt the user to enter a city
+    if is_cancel(city): # Checks if the user wants to cancel or exit the program
+        print("Adding contact operation cancelled.") # This will print a message to the user that the operation has been cancelled
+        return # Stops the function from continuing
 
     user_contact = Contact(first_name, last_name, email, country_code, phone_number, city) # This will create a new contact with the given information
     contacts[phone_number] = user_contact # This will add the new contact to the contact book with the phone number as the key and the contact object as the value

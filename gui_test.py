@@ -1,4 +1,4 @@
-from contact import add_contact, contacts, Contact, valid_field_names # This whole google form look to use add_contact needs to have users input their answers into a google like form and then add_contact actually running on the back of this, therefore will need to add thye add_contact() function in this python file which is from the contact.py python fdile under the same folder
+from contact import add_contact, display_contacts, contacts, Contact, valid_field_names # This whole google form look to use add_contact needs to have users input their answers into a google like form and then add_contact actually running on the back of this, therefore will need to add thye add_contact() function in this python file which is from the contact.py python fdile under the same folder
 import tkinter as tk # This is the library tghat contains the Graphical User Interface that we will use to create a google-like form asking the user to input their contact details if add_contact is called. Giving the Tkinter library alias tk
 
 print(contacts) # Temporary debugging line
@@ -90,6 +90,7 @@ def gui_add_contact(contacts): # This function represents add_contacts(0 functio
                 if country_code.isdigit(): # This checks whether the country code is made of just numbers or not. If it is, then the program will continue and create a new contact with the given information. If it is not, then the program will print an error message and ask the user to enter a different country code. If it is then all field name values entered are valid, so the contacts object is ready to be created
                     user_contact = Contact(first_name, last_name, email, country_code, phone_number, city) # This will create a new contact with the given information
                     contacts[phone_number] = user_contact # This will add the new contact to the contact book with the phone number as the key and the contact object as the value
+                    display_contacts(contacts) # TEMPORARY - to just check contacts dictionary is populating correctly, remove once confirmed
                     error_label.config(text = "") # This ensures the error label returns back to its defauilt an empty string, so no error label shows
                     first_name_input.delete(0, tk.END) # delete the first all the way to the end of the characters that user inputted for first_name 
                     last_name_input.delete(0, tk.END) # delete the first all the way to the end of the characters that user inputted for last_name
