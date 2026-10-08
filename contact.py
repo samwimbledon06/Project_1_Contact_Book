@@ -1,3 +1,5 @@
+import csv # This will import the csv module which will allow us to write to a csv file
+
 # Creating a class called "Contact" which will store all the information required for one contact to be created in my contact book e.g. name, phone number, email address etc.
 class Contact:
     def __init__(self, first_name, last_name, email, country_code, phone_number, city): # Outlining the attributes of the class Contact
@@ -208,6 +210,21 @@ def sort_contacts(contacts): # This is a function that sorts contacts by the val
         for contact in contact_list: # This will loop through all the contacts in the sorted list and print them out
             print(contact) # This will print out the contact information for each contact in the sorted list
 
+def export_contacts_to_csv(contacts): # This function will export all the contact information to a csv but needs the contacts dictionary passed into it so that it can access the contact objects and their attributes to write to the csv file
+    if contacts == {}: # This checks if the contacts dictionary is empty. If it is, then the program will print an error message and return to the main menu.
+        print("No contacts to export. Please add contacts before exporting.") # This will print an error message if there are no contacts to export
+        return # This will return to the main menu and not export any contacts
+    else: # If the contacts dictionary is not empty, then the program will export all the contact information to a csv file called contacts.csv
+        with open("contacts.csv", "w", newline="") as file: # This will open a new csv file called contacts.csv in write mode and will create a new file if it does not exist. The newline="" argument is used to prevent blank lines from being added to the csv file when writing to it.
+            csv_writer = csv.writer(file) # This will create a csv writer object that will allow us to write to the csv file
+            csv_writer.writerow(["First Name", "Last Name", "Email", "Country Code", "Phone Number", "City"]) # This will write the header row to the csv file
+            for contact in contacts.values(): # This will loop through all the contacts in the contact book and write them to the csv file
+                csv_writer.writerow([contact.first_name, contact.last_name, contact.email, contact.country_code, contact.phone_number, contact.city]) # This will write the contact information for each contact in the contact book to the csv file
+        print("Contacts exported to contacts.csv") # This will print a message to the user that the contacts have been exported to the csv file
+
+
+# List of user typed commands that will be used to call the functions above. The keys are the user input and the values are the functions that will be called when the user inputs the corresponding key. The keys are all in lowercase to make it easier for the user to input commands without having to worry about capitalisation. The values are the functions that will be called when the user inputs the corresponding key. The functions are all defined above and are used to add, display, remove, update, filter, sort and export contacts.
+
 commands = {
     "add": add_contact,
     "add contact": add_contact,
@@ -269,7 +286,22 @@ commands = {
     "sort contacts in contact book": sort_contacts,
     "sort a contact in my contact book": sort_contacts,
     "sort contacts in my contact book": sort_contacts,
-    "sort one contact in my contact book": sort_contacts
+    "sort one contact in my contact book": sort_contacts,
+    "export": export_contacts_to_csv,
+    "export contacts": export_contacts_to_csv,
+    "export to a csv": export_contacts_to_csv,
+    "export contacts to csv": export_contacts_to_csv,
+    "export contacts to a csv": export_contacts_to_csv,
+    "export contacts to a csv file": export_contacts_to_csv,
+    "export contacts to a csv file format": export_contacts_to_csv,
+    "save": export_contacts_to_csv,
+    "save contacts": export_contacts_to_csv,
+    "save contacts to a csv": export_contacts_to_csv,
+    "save contacts to csv": export_contacts_to_csv,
+    "save contacts to a csv file": export_contacts_to_csv,
+    "save contacts to a csv file format": export_contacts_to_csv,
+    "save as a csv": export_contacts_to_csv,
+    "save contacts as a csv": export_contacts_to_csv
 }
     
 contacts = {} # This is the dictionary that acts as a contact book and stores all the contact objects as values to their corresponding phone number as a key. The dictionary will be added to once someone decideds to add a contact. THis dictionary is the data source that is effeected by all the functions e.g. add, display, remove, update, fiulter, sort contact

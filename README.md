@@ -12,6 +12,7 @@ A command-line contact book built in Python. This was my first Python project us
 - **Sort contacts** — sort by any field, in ascending or descending order
 - Natural-language commands — type things like `add`, `add a contact`, or `add contact to contact book` and they all work
 - Cancel/exit option available at almost every prompt, so you're never stuck partway through an operation
+- **Export to CSV** — type `export` (or `save`) to write all contacts to `contacts.csv`, with a header row, ready to open in Excel or load into analysis tools. Refuses to export (and won't overwrite an earlier export) if the contact book is empty
 
 ## How it works
 
